@@ -22,8 +22,8 @@ public class CarStatusMessage {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
-    private Map<String, ?> statusMap;
+    private Map<String, Double> statusMap;
 
     private long id;
-    private String message;
+    private String title;
 }

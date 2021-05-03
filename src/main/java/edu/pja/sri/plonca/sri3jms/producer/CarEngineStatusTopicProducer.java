@@ -18,14 +18,6 @@ import java.util.Random;
 public class CarEngineStatusTopicProducer {
     private final JmsTemplate jmsTemplate;
 
-    //    private double engineTemperature;
-//    private double oilPressure;
-//    private double brakeFluidPressure;
-//    private double rightFrontWheelPressure;
-//    private double leftFrontWheelPressure;
-//    private double rightRearWheelPressure;
-//    private double leftRearWheelPressure;
-
     @NotNull
     private Map<String, Double> generateEngineStatus(){
         // TODO: zaimplementować logikę różnych poziomów (bezpieczny, ostrzeżenie, zagrożenie) dla losowo wybranych
@@ -51,7 +43,7 @@ public class CarEngineStatusTopicProducer {
                 .id(CarStatusMessage.nextId())
                 .createdAt(LocalDateTime.now())
                 .statusMap(engineStatusMeasurements)
-                .message("Car engine status")
+                .title("Car engine status")
                 .build();
         jmsTemplate.convertAndSend(JmsConfig.TOPIC_CAR_ENGINE_STATUS, message);
         System.out.println("CarEngineStatusTopicProducer.sendCarEngineStatus - sent message: " + message);
