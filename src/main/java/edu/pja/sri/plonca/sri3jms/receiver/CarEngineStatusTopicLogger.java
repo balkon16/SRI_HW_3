@@ -53,10 +53,9 @@ public class CarEngineStatusTopicLogger {
 
     @JmsListener(destination = JmsConfig.TOPIC_CAR_ENGINE_STATUS, containerFactory =
             "topicConnectionFactory")
-    public void receiveHelloMessage(@Payload CarStatusMessage convertedMessage,
-                                    @Headers MessageHeaders messageHeaders,
-                                    Message message) {
-        LocalDateTime receivedAt = LocalDateTime.now();
+    public void receiveMessage(@Payload CarStatusMessage convertedMessage,
+                               @Headers MessageHeaders messageHeaders,
+                               Message message) {
         System.out.println(getformattedMessage(convertedMessage));
     }
 }

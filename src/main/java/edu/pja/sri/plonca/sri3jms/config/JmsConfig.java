@@ -19,6 +19,7 @@ import javax.jms.Session;
 @Configuration
 public class JmsConfig {
     public static final String TOPIC_CAR_ENGINE_STATUS = "CAR_ENGINE.TOPIC";
+    public static final String QUEUE_COCKPIT_ANALYZER = "CAR_STATUS_ANALYZER.QUEUE";
 
     @Bean
     public JmsListenerContainerFactory<?>
