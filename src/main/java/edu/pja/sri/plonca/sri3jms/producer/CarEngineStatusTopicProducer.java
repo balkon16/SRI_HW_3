@@ -32,12 +32,9 @@ public class CarEngineStatusTopicProducer {
     private Map<String, Double> generateEngineStatus(){
         // TODO: zaimplementować logikę różnych poziomów (bezpieczny, ostrzeżenie, zagrożenie) dla losowo wybranych
         //  elementów
-        Object carLimits = JsonReader.readJsonFile(carDimens.ENGINE_STATUS_VALUES_FILE_PATH);
-//        ArrayList<Double> values = JsonPath.read(carLimits, "$.engineTemperature." + carDimens.UPPER_LIMIT_NAME);
-//        ArrayList<Double> lowerBounds = JsonPath.read(carLimits, "$.engineTemperature." + carDimens.LOWER_LIMIT_NAME);
-        Double probValue = JsonPath.read(carLimits, "$.engineTemperature.prob");
-        ArrayList<Double> dimenValues = JsonPath.read(carLimits, "$.engineTemperature.values");
-//        values.addAll(lowerBounds);
+        Object engineStatusValuesMap = JsonReader.readJsonFile(carDimens.ENGINE_STATUS_VALUES_FILE_PATH);
+        Double probValue = JsonPath.read(engineStatusValuesMap, "$.engineTemperature.prob");
+        ArrayList<Double> dimenValues = JsonPath.read(engineStatusValuesMap, "$.engineTemperature.values");
 
         Map<String, Double> carMeasurementsMap = new HashMap<>();
         carMeasurementsMap.put("engineTemperature", engineGenerator.generateDimenValue(dimenValues, probValue));
