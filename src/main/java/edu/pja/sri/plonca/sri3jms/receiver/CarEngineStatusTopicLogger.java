@@ -17,25 +17,15 @@ import java.util.Map;
 @Component
 public class CarEngineStatusTopicLogger {
 
-//    private final Map<String, String> translationMap = Map.ofEntries(
-//            entry("engineTemperature", "temperatura silnika"),
-//            entry("oilPressure", "ciśnienie oleju"),
-//            entry("brakeFluidPressure", "ciśnienie płynu hamulcowego"),
-//            entry("rightFrontWheelPressure", "ciśnienie opony - prawa z przodu"),
-//            entry("leftFrontWheelPressure", "ciśnienie opony - lewa z przodu"),
-//            entry("rightRearWheelPressure", "ciśnienie opony - prawa z tyłu"),
-//            entry("leftRearWheelPressure", "ciśnienie opony - lewa z tyłu")
-//    );
-
     private String getFormattedMessage(CarStatusMessage message, Map<String, String> translationMap) {
         Locale plPLLocale = new Locale.Builder().setLanguage("pl").setRegion("PL").build();
         NumberFormat numberFormatter = NumberFormat.getNumberInstance(plPLLocale);
         Map<String, Double> measurementsMap = message.getStatusMap();
 
-        StringBuilder stringBuilder = new StringBuilder("Identyfikator: " + message.getId() +
-                ". Tytuł: " + message.getTitle());
+        StringBuilder stringBuilder = new StringBuilder("ID: " + message.getId() +
+                ". Title: " + message.getTitle());
         stringBuilder.append(System.getProperty("line.separator"));
-        stringBuilder.append("Wygenerowana: " + message.getCreatedAt());
+        stringBuilder.append("Generated at: " + message.getCreatedAt());
         stringBuilder.append(System.getProperty("line.separator"));
 
         for (Map.Entry<String, Double> measurementEntry: measurementsMap.entrySet()){
