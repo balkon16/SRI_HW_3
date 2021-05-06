@@ -1,5 +1,6 @@
 package edu.pja.sri.plonca.sri3jms.receiver;
 
+import edu.pja.sri.plonca.sri3jms.carDimens.carDimens;
 import edu.pja.sri.plonca.sri3jms.config.JmsConfig;
 import edu.pja.sri.plonca.sri3jms.model.CarStatusMessage;
 import org.springframework.jms.annotation.JmsListener;
@@ -10,27 +11,23 @@ import org.springframework.stereotype.Component;
 
 import javax.jms.Message;
 import java.text.NumberFormat;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import static java.util.Map.entry;
 
 @Component
 public class CarEngineStatusTopicLogger {
 
-    private final Map<String, String> translationMap = Map.ofEntries(
-            entry("engineTemperature", "temperatura silnika"),
-            entry("oilPressure", "ciśnienie oleju"),
-            entry("brakeFluidPressure", "ciśnienie płynu hamulcowego"),
-            entry("rightFrontWheelPressure", "ciśnienie opony - prawa z przodu"),
-            entry("leftFrontWheelPressure", "ciśnienie opony - lewa z przodu"),
-            entry("rightRearWheelPressure", "ciśnienie opony - prawa z tyłu"),
-            entry("leftRearWheelPressure", "ciśnienie opony - lewa z tyłu")
-    );
+//    private final Map<String, String> translationMap = Map.ofEntries(
+//            entry("engineTemperature", "temperatura silnika"),
+//            entry("oilPressure", "ciśnienie oleju"),
+//            entry("brakeFluidPressure", "ciśnienie płynu hamulcowego"),
+//            entry("rightFrontWheelPressure", "ciśnienie opony - prawa z przodu"),
+//            entry("leftFrontWheelPressure", "ciśnienie opony - lewa z przodu"),
+//            entry("rightRearWheelPressure", "ciśnienie opony - prawa z tyłu"),
+//            entry("leftRearWheelPressure", "ciśnienie opony - lewa z tyłu")
+//    );
 
-    private String getformattedMessage(CarStatusMessage message) {
+    private String getFormattedMessage(CarStatusMessage message, Map<String, String> translationMap) {
         Locale plPLLocale = new Locale.Builder().setLanguage("pl").setRegion("PL").build();
         NumberFormat numberFormatter = NumberFormat.getNumberInstance(plPLLocale);
         Map<String, Double> measurementsMap = message.getStatusMap();
@@ -56,6 +53,6 @@ public class CarEngineStatusTopicLogger {
     public void receiveMessage(@Payload CarStatusMessage convertedMessage,
                                @Headers MessageHeaders messageHeaders,
                                Message message) {
-        System.out.println(getformattedMessage(convertedMessage));
+        System.out.println(getFormattedMessage(convertedMessage, carDimens.translationMap));
     }
 }

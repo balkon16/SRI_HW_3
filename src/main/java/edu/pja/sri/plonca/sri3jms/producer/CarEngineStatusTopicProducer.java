@@ -1,14 +1,21 @@
 package edu.pja.sri.plonca.sri3jms.producer;
 
+import com.jayway.jsonpath.JsonPath;
+import edu.pja.sri.plonca.sri3jms.carDimens.carDimens;
 import edu.pja.sri.plonca.sri3jms.config.JmsConfig;
+import edu.pja.sri.plonca.sri3jms.helpers.JsonReader;
+import edu.pja.sri.plonca.sri3jms.helpers.engineGenerator;
 import edu.pja.sri.plonca.sri3jms.model.CarStatusMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.wildfly.common.annotation.NotNull;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -18,18 +25,30 @@ import java.util.Random;
 public class CarEngineStatusTopicProducer {
     private final JmsTemplate jmsTemplate;
 
+
+
+    @SneakyThrows
     @NotNull
     private Map<String, Double> generateEngineStatus(){
         // TODO: zaimplementować logikę różnych poziomów (bezpieczny, ostrzeżenie, zagrożenie) dla losowo wybranych
         //  elementów
+        Object carLimits = JsonReader.readJsonFile(carDimens.ENGINE_STATUS_VALUES_FILE_PATH);
+//        ArrayList<Double> values = JsonPath.read(carLimits, "$.engineTemperature." + carDimens.UPPER_LIMIT_NAME);
+//        ArrayList<Double> lowerBounds = JsonPath.read(carLimits, "$.engineTemperature." + carDimens.LOWER_LIMIT_NAME);
+        Double probValue = JsonPath.read(carLimits, "$.engineTemperature.prob");
+        ArrayList<Double> dimenValues = JsonPath.read(carLimits, "$.engineTemperature.values");
+//        values.addAll(lowerBounds);
+
         Map<String, Double> carMeasurementsMap = new HashMap<>();
-        carMeasurementsMap.put("engineTemperature", 90.1);
-        carMeasurementsMap.put("oilPressure", 45.12);
-        carMeasurementsMap.put("brakeFluidPressure", 10.1);
-        carMeasurementsMap.put("rightFrontWheelPressure", 32.5);
-        carMeasurementsMap.put("leftFrontWheelPressure", 32.9);
-        carMeasurementsMap.put("rightRearWheelPressure", 31.5);
-        carMeasurementsMap.put("leftRearWheelPressure", 31.8);
+        carMeasurementsMap.put("engineTemperature", engineGenerator.generateDimenValue(dimenValues, probValue));
+
+//        carMeasurementsMap.put("", lowerBounds.get(0));
+//        carMeasurementsMap.put("oilPressure", 45.12);
+//        carMeasurementsMap.put("brakeFluidPressure", 10.1);
+//        carMeasurementsMap.put("rightFrontWheelPressure", 32.5);
+//        carMeasurementsMap.put("leftFrontWheelPressure", 32.9);
+//        carMeasurementsMap.put("rightRearWheelPressure", 31.5);
+//        carMeasurementsMap.put("leftRearWheelPressure", 31.8);
 
         return carMeasurementsMap;
     }

@@ -1,0 +1,13 @@
+{
+  "engineTemperature": {
+    "upper": [
+      91.5,
+      96.0
+    ],
+    "lower": [
+      50.8,
+      45.9
+    ],
+    "prob": 0.8
+  }
+}
