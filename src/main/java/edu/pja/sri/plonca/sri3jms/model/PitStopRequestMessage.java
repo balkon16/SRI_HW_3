@@ -7,15 +7,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CarStatusMessage {
+public class PitStopRequestMessage {
     private static long idIndex = 0;
 
     public static long nextId() {
@@ -25,8 +23,7 @@ public class CarStatusMessage {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
-    private Map<String, Double> statusMap;
 
     private long id;
-    private String title;
+    private int ETASeconds;
 }

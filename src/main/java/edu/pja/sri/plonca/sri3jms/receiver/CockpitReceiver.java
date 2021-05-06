@@ -1,7 +1,7 @@
 package edu.pja.sri.plonca.sri3jms.receiver;
 
 import edu.pja.sri.plonca.sri3jms.config.JmsConfig;
-import edu.pja.sri.plonca.sri3jms.model.AnalyzerMessage;
+import edu.pja.sri.plonca.sri3jms.model.GeneralMessage;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
@@ -14,7 +14,7 @@ import javax.jms.Message;
 public class CockpitReceiver {
     @JmsListener(destination = JmsConfig.QUEUE_COCKPIT_ANALYZER, containerFactory =
             "queueConnectionFactory")
-    public void receiveAnalyzerMessage(@Payload AnalyzerMessage convertedMessage,
+    public void receiveAnalyzerMessage(@Payload GeneralMessage convertedMessage,
                                        @Headers MessageHeaders messageHeaders,
                                        Message message) {
         System.out.println("CockpitReceiver.receiveAnalyzerMessage, message: " + convertedMessage);

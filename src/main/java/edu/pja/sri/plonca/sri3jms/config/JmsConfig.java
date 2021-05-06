@@ -21,6 +21,7 @@ public class JmsConfig {
     public static final String TOPIC_CAR_ENGINE_STATUS = "CAR_ENGINE.TOPIC";
     public static final String QUEUE_COCKPIT_ANALYZER = "CAR_STATUS_ANALYZER_COCKPIT.QUEUE";
     public static final String QUEUE_TEAM_DESKTOP = "CAR_STATUS_ANALYZER_TEAM_DESKTOP.QUEUE";
+    public static final String QUEUE_PITSTOP_REQUEST = "PITSTOP_REQUEST_FROM_COCKPIT.QUEUE";
 
     @Bean
     public JmsListenerContainerFactory<?>

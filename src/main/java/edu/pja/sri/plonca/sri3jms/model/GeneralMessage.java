@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AnalyzerMessage {
+public class GeneralMessage {
     private static long idIndex = 0;
 
     public static long nextId() {

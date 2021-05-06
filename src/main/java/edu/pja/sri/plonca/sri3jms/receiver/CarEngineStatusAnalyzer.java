@@ -4,7 +4,7 @@ import com.jayway.jsonpath.JsonPath;
 import edu.pja.sri.plonca.sri3jms.carDimens.carDimens;
 import edu.pja.sri.plonca.sri3jms.config.JmsConfig;
 import edu.pja.sri.plonca.sri3jms.helpers.JsonReader;
-import edu.pja.sri.plonca.sri3jms.model.AnalyzerMessage;
+import edu.pja.sri.plonca.sri3jms.model.GeneralMessage;
 import edu.pja.sri.plonca.sri3jms.model.CarStatusMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -27,19 +27,17 @@ public class CarEngineStatusAnalyzer {
 
     private final JmsTemplate jmsTemplate;
 
-    public void sendMessageToDriver(AnalyzerMessage message) {
+    public void sendMessageToDriver(GeneralMessage message) {
         jmsTemplate.convertAndSend(JmsConfig.QUEUE_COCKPIT_ANALYZER, message);
-        System.out.println("Sent message to the driver");
     }
 
-    public void sendMessageToTeam(AnalyzerMessage message) {
+    public void sendMessageToTeam(GeneralMessage message) {
         jmsTemplate.convertAndSend(JmsConfig.QUEUE_TEAM_DESKTOP, message);
-        System.out.println("Sent message to the team");
     }
 
-    private AnalyzerMessage createMessage(ArrayList<String> content) {
-        return AnalyzerMessage.builder()
-                .id(AnalyzerMessage.nextId())
+    private GeneralMessage createMessage(ArrayList<String> content) {
+        return GeneralMessage.builder()
+                .id(GeneralMessage.nextId())
                 .createdAt(LocalDateTime.now())
                 .message("Sent from CarEngineStatusAnalyzer: " + content)
                 .build();
@@ -90,11 +88,11 @@ public class CarEngineStatusAnalyzer {
         ArrayList<String> errorsList = analysisResult.get("errors");
 
         if (warningsList.toArray().length > 0) {
-            AnalyzerMessage messageWarnings = createMessage(warningsList);
+            GeneralMessage messageWarnings = createMessage(warningsList);
             sendMessageToDriver(messageWarnings);
         }
         if (errorsList.toArray().length > 0) {
-            AnalyzerMessage messageErrors = createMessage(errorsList);
+            GeneralMessage messageErrors = createMessage(errorsList);
             sendMessageToDriver(messageErrors);
             sendMessageToTeam(messageErrors);
         }
